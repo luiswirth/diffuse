@@ -1,6 +1,6 @@
-use crate::State;
 use crate::ito::ItoProcess;
 use crate::path::{PathIncrements, PathStates, TimeGrid};
+use crate::{Matrix, State};
 
 pub struct OrnsteinUhlenbeck {
   pub theta: f64,
@@ -23,12 +23,10 @@ impl OrnsteinUhlenbeck {
 }
 
 impl ItoProcess for OrnsteinUhlenbeck {
-  type Diffusion = f64;
-
   fn drift(&self, _t: f64, x: &State) -> State {
     -self.theta * x
   }
-  fn diffusion(&self, _t: f64, _x: &State) -> f64 {
-    self.sigma
+  fn diffusion(&self, _t: f64, x: &State) -> Matrix {
+    self.sigma * Matrix::identity(x.len(), x.len())
   }
 }

@@ -1,19 +1,15 @@
 use crate::ito::ItoProcess;
 use crate::path::{PathIncrements, PathStates, TimeGrid};
-use crate::{State, Vector};
-use std::ops::Mul;
+use crate::{Matrix, State, Vector};
 
-pub fn euler_maruyama_step<Diffusion>(
+pub fn euler_maruyama_step(
   drift: Vector,
-  diffusion: Diffusion,
+  diffusion: Matrix,
   mut x: State,
   dt: f64,
-  dw: &Vector,
-) -> State
-where
-  Diffusion: for<'a> Mul<&'a Vector, Output = Vector>,
-{
-  x += drift * dt + diffusion * dw;
+  db: &Vector,
+) -> State {
+  x += drift * dt + diffusion * db;
   x
 }
 
@@ -33,10 +29,10 @@ pub fn euler_maruyama(
     let x = &states[istep];
     let t = grid.values()[istep];
     let dt = dts.values()[istep];
-    let dw = &brownian.values()[istep];
+    let db = &brownian.values()[istep];
     let drift = process.drift(t, x);
     let diffusion = process.diffusion(t, x);
-    states.push(euler_maruyama_step(drift, diffusion, x.clone(), dt, dw));
+    states.push(euler_maruyama_step(drift, diffusion, x.clone(), dt, db));
   }
 
   PathStates::new(states)
