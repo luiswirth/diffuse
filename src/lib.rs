@@ -1,9 +1,4 @@
-//! Particle samplers for Ito SDEs and for the probability flow ODE.
-//!
-//! One state, one stepper: an ensemble of particles carried by a time-dependent
-//! velocity field, with an optional diffusion coefficient. Setting the diffusion
-//! to zero turns the SDE stepper into the deterministic flow, so both samplers
-//! are the same code path.
+//! Samplers for Ito SDEs, with grids and paths as cochains on the time grid.
 
 pub mod brownian;
 pub mod euler_maruyama;
