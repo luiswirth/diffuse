@@ -1,0 +1,15 @@
+[package]
+name = "diffuse"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+nalgebra = "0.35"
+rand = "0.10"
+rand_distr = "0.6"
+rayon = "1"
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+# Dependencies are compiled optimized even in a debug build, this crate is not.
+[profile.dev.package."*"]
+opt-level = 3
