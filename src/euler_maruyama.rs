@@ -5,12 +5,11 @@ use crate::{Matrix, State, Vector};
 pub fn euler_maruyama_step(
   drift: Vector,
   diffusion: Matrix,
-  mut x: State,
+  x: &State,
   dt: f64,
   db: &Vector,
 ) -> State {
-  x += drift * dt + diffusion * db;
-  x
+  x + drift * dt + diffusion * db
 }
 
 pub fn euler_maruyama(
@@ -32,7 +31,7 @@ pub fn euler_maruyama(
     let db = &brownian.values()[istep];
     let drift = process.drift(t, x);
     let diffusion = process.diffusion(t, x);
-    states.push(euler_maruyama_step(drift, diffusion, x.clone(), dt, db));
+    states.push(euler_maruyama_step(drift, diffusion, x, dt, db));
   }
 
   PathStates::new(states)
