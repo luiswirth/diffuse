@@ -1,10 +1,10 @@
 //! Samplers for Ito SDEs, with grids and paths as cochains on the time grid.
 
-pub mod brownian;
 pub mod euler_maruyama;
 pub mod ito;
 pub mod ou;
 pub mod path;
+pub mod wiener;
 
 use nalgebra as na;
 
